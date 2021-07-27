@@ -5,11 +5,11 @@
     
     <!-- 쿼리문 작성 -->
 
-<mapper namespace="com.oidc.social.dao.SocialMapper">
+<mapper namespace="com.oidc.social.dao.CommentMapper">
 
     <sql id="commentColumns">
         CID
-		, MID
+        , MID
 		, UID
         , COMMENT
 		, DELETEYN
@@ -18,22 +18,26 @@
 		, DELETE_TIME
     </sql>
 
-    <insert id="insertComment" parameterType="CommentDTO">
+    <select id = "getUid" parameterType="String" resultType="long">
+        SELECT UID FROM USERINFO WHERE USERID=#{userId}
+    </select>
+
+    <insert id="insertComment" parameterType="CommentDto">
         INSERT INTO MOVIECOMMENT (
         <include refid="commentColumns" />
         ) VALUES (
-        #{CID}
-        , #{MID}
-        , #{UID}
-        , #{COMMENT}
-        , IFNULL(#{DELETEYN}, 'N')
+        #{cid}
+        , #{mid}
+        , #{uid}
+        , #{comment}
+        , IFNULL(#{deleteYn}, 'N')
         , NOW()
         , NULL
         , NULL
         )
     </insert>
 
-    <select id="selectCommentDetail" parameterType="long" resultType="CommentDTO">
+    <select id="selectCommentDetail" parameterType="long" resultType="CommentDto">
         SELECT
         <include refid="commentColumns" />
         FROM
@@ -41,17 +45,17 @@
         WHERE
         DELETEYN = 'N'
         AND
-        CID = #{CID}
+        CID = #{cid}
     </select>
 
-    <update id="updateComment" parameterType="CommentDTO">
+    <update id="updateComment" parameterType="CommentDto">
         UPDATE MOVIECOMMENT
         SET
             UPDATE_TIME = NOW()
-          , COMMENT = #{COMMENT}
-          , UID = #{UID}
+          , COMMENT = #{comment}
+          , UID = #{uid}
         WHERE
-            CID = #{CID}
+            CID = #{cid}
     </update>
 
     <update id="deleteComment" parameterType="long">
@@ -60,10 +64,10 @@
             DELETEYN = 'Y'
           , DELETE_TIME = NOW()
         WHERE
-            CID = #{CID}
+            CID = #{cid}
     </update>
 
-    <select id="selectCommentList" parameterType="CommentDTO" resultType="CommentDTO">
+    <select id="selectCommentList" parameterType="CommentDto" resultType="CommentDto">
         SELECT
         <include refid="commentColumns" />
         FROM
@@ -71,13 +75,13 @@
         WHERE
         DELETEYN = 'N'
         AND
-        MID = #{MID}
+        MID = #{mid}
         ORDER BY
         CID DESC,
         INSERT_TIME DESC
     </select>
 
-    <select id="selectCommentTotalCount" parameterType="CommentDTO" resultType="int">
+    <select id="selectCommentTotalCount" parameterType="CommentDto" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -85,7 +89,7 @@
         WHERE
             DELETEYN = 'N'
           AND
-            MID = #{MID}
+            MID = #{mid}
     </select>
 
 </mapper>

@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface SocialMapper {
+public interface CommentMapper {
+
+    public Long getUid(String userId);
 
     public int insertComment(CommentDto params);
 
