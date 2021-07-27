@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <!-- 쿼리문 작성 -->
+
+<mapper namespace="com.oidc.social.dao.SocialMapper">
+
+    <sql id="commentColumns">
+        CID
+		, MID
+		, UID
+        , COMMENT
+		, DELETEYN
+		, INSERT_TIME
+		, UPDATE_TIME
+		, DELETE_TIME
+    </sql>
+
+    <insert id="insertComment" parameterType="CommentDTO">
+        INSERT INTO MOVIECOMMENT (
+        <include refid="commentColumns" />
+        ) VALUES (
+        #{CID}
+        , #{MID}
+        , #{UID}
+        , #{COMMENT}
+        , IFNULL(#{DELETEYN}, 'N')
+        , NOW()
+        , NULL
+        , NULL
+        )
+    </insert>
+
+    <select id="selectCommentDetail" parameterType="long" resultType="CommentDTO">
+        SELECT
+        <include refid="commentColumns" />
+        FROM
+        MOVIECOMMENT
+        WHERE
+        DELETEYN = 'N'
+        AND
+        CID = #{CID}
+    </select>
+
+    <update id="updateComment" parameterType="CommentDTO">
+        UPDATE MOVIECOMMENT
+        SET
+            UPDATE_TIME = NOW()
+          , COMMENT = #{COMMENT}
+          , UID = #{UID}
+        WHERE
+            CID = #{CID}
+    </update>
+
+    <update id="deleteComment" parameterType="long">
+        UPDATE MOVIECOMMENT
+        SET
+            DELETEYN = 'Y'
+          , DELETE_TIME = NOW()
+        WHERE
+            CID = #{CID}
+    </update>
+
+    <select id="selectCommentList" parameterType="CommentDTO" resultType="CommentDTO">
+        SELECT
+        <include refid="commentColumns" />
+        FROM
+        MOVIECOMMENT
+        WHERE
+        DELETEYN = 'N'
+        AND
+        MID = #{MID}
+        ORDER BY
+        CID DESC,
+        INSERT_TIME DESC
+    </select>
+
+    <select id="selectCommentTotalCount" parameterType="CommentDTO" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            MOVIECOMMENT
+        WHERE
+            DELETEYN = 'N'
+          AND
+            MID = #{MID}
+    </select>
+
+</mapper>
