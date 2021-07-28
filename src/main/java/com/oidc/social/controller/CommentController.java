@@ -28,8 +28,8 @@ public class CommentController {
             if (cid != null) {
                 params.setCid(cid);
             }
-
             boolean isRegistered = commentService.registerComment(params);
+
             jsonObject.put("result", isRegistered);
 
         } catch (DataAccessException e) {
