@@ -10,6 +10,8 @@ public interface CommentMapper {
 
     public Long getUid(String userId);
 
+    public Long getMid(String title);
+
     public int insertComment(CommentDto params);
 
     public CommentDto selectCommentDetail(Long cid);

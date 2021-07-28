@@ -22,6 +22,10 @@
         SELECT UID FROM USERINFO WHERE USERID=#{userId}
     </select>
 
+    <select id = "getMid" parameterType="String" resultType="long">
+        SELECT MID FROM MOVIEINFO WHERE TITLE=#{title}
+    </select>
+
     <insert id="insertComment" parameterType="CommentDto">
         INSERT INTO MOVIECOMMENT (
         <include refid="commentColumns" />

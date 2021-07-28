@@ -56,11 +56,11 @@ public class CommentController {
         return jsonObject;
     }
 
-    @GetMapping(value = "/comments/{mid}")
-    public JSONObject getCommentList(@PathVariable("mid") Long mid, @ModelAttribute("params") CommentDto params) {
+    @GetMapping(value = "/comments/{title}")
+    public JSONObject getCommentList(@PathVariable("title") String title, @ModelAttribute("params") CommentDto params) {
 
         JSONObject jsonObject = new JSONObject();
-
+        params.setTitle(title);
         List<CommentDto> commentList = commentService.getCommentList(params);
         if (CollectionUtils.isEmpty(commentList) == false) {
 

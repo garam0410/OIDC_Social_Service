@@ -9,6 +9,7 @@ public class CommentDto{
     private Long cid;
     private Long mid;
     private Long uid;
+    private String title;
     private String userId;
     private String comment;
     private String deleteYn;

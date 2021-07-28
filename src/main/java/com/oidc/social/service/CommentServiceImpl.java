@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<CommentDto> getCommentList(CommentDto params) {
         List<CommentDto> commentList = Collections.emptyList();
-
+        params.setMid(commentMapper.getMid(params.getTitle()));
         int commentTotalCount = commentMapper.selectCommentTotalCount(params);
         if (commentTotalCount > 0) {
             commentList = commentMapper.selectCommentList(params);
