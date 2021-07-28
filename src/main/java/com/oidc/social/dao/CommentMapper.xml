@@ -26,6 +26,10 @@
         SELECT MID FROM MOVIEINFO WHERE TITLE=#{title}
     </select>
 
+    <insert id="insertTitle" parameterType="String">
+        INSERT INTO MOVIEINFO(TITLE) VALUES (#{title})
+    </insert>
+
     <insert id="insertComment" parameterType="CommentDto">
         INSERT INTO MOVIECOMMENT (
         <include refid="commentColumns" />

@@ -18,7 +18,15 @@ public class CommentServiceImpl implements CommentService{
     public boolean registerComment(CommentDto params) {
         int queryResult = 0;
 
-        params.setMid(commentMapper.getMid(params.getTitle()));
+        Long result = commentMapper.getMid(params.getTitle());
+
+        if(result==null){
+            commentMapper.insertTitle(params.getTitle());
+            params.setMid(commentMapper.getMid(params.getTitle()));
+        }else{
+            params.setMid(commentMapper.getMid(params.getTitle()));
+        }
+
         params.setUid(commentMapper.getUid(params.getUserId()));
 
         if (params.getCid() == null) {

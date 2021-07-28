@@ -12,6 +12,8 @@ public interface CommentMapper {
 
     public Long getMid(String title);
 
+    public int insertTitle(String title);
+
     public int insertComment(CommentDto params);
 
     public CommentDto selectCommentDetail(Long cid);
