@@ -69,16 +69,18 @@
 
     <select id="selectCommentList" parameterType="CommentDto" resultType="CommentDto">
         SELECT
-        <include refid="commentColumns" />
+            USERINFO.USERID, MOVIECOMMENT.CID, MOVIECOMMENT.MID,MOVIECOMMENT.UID, MOVIECOMMENT.`COMMENT`, MOVIECOMMENT.DELETEYN, MOVIECOMMENT.INSERT_TIME, MOVIECOMMENT.UPDATE_TIME
         FROM
-        MOVIECOMMENT
+            MOVIECOMMENT, USERINFO
         WHERE
-        DELETEYN = 'N'
-        AND
-        MID = #{mid}
+            MOVIECOMMENT.DELETEYN = 'N'
+          AND
+            MOVIECOMMENT.MID = #{mid}
+          AND
+            USERINFO.UID = MOVIECOMMENT.UID
         ORDER BY
-        CID DESC,
-        INSERT_TIME DESC
+            MOVIECOMMENT.CID DESC,
+            MOVIECOMMENT.INSERT_TIME DESC
     </select>
 
     <select id="selectCommentTotalCount" parameterType="CommentDto" resultType="int">

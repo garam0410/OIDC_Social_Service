@@ -12,6 +12,8 @@ public class CommentDto{
     private String userId;
     private String comment;
     private String deleteYn;
+    private String insert_time;
+    private String update_time;
 
     public CommentDto(){
 
