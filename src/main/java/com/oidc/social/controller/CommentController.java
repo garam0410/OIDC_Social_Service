@@ -1,6 +1,7 @@
 package com.oidc.social.controller;
 
 import com.oidc.social.dto.CommentDto;
+import com.oidc.social.dto.BpmDto;
 import com.oidc.social.service.CommentService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,4 +71,23 @@ public class CommentController {
         return jsonObject;
     }
 
+
+    @RequestMapping(value={"/bpmsend"}, method = {RequestMethod.POST, RequestMethod.PATCH})
+    public JSONObject bpmSend(@RequestBody BpmDto params){
+        JSONObject jsonObject = new JSONObject();
+
+        try{
+            boolean isRegistered = commentService.sendBpm(params);
+
+            jsonObject.put("result", isRegistered);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            jsonObject.put("message", "데이터베이스 처리 과정에 문제가 발생하였습니다.");
+
+        } catch (Exception e) {
+            jsonObject.put("message", "시스템에 문제가 발생하였습니다.");
+        }
+        return jsonObject;
+    }
 }

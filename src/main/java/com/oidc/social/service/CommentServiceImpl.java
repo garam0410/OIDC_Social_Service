@@ -1,6 +1,7 @@
 package com.oidc.social.service;
 
 import com.oidc.social.dao.CommentMapper;
+import com.oidc.social.dto.BpmDto;
 import com.oidc.social.dto.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,23 @@ public class CommentServiceImpl implements CommentService{
         if (commentTotalCount > 0) {
             commentList = commentMapper.selectCommentList(params);
         }
-
         return commentList;
+    }
+
+    @Override
+    public boolean sendBpm(BpmDto params) {
+        int queryResult = 0;
+
+        params.setUid(commentMapper.getUid(params.getUserId()));
+        params.setMid(commentMapper.getMid(params.getTitle()));
+
+        //insert bpmtest
+        queryResult = commentMapper.insertBpmTest(params.getMid(), params.getUid());
+
+        params.setTid(commentMapper.getTid(params.getUid(), params.getMid()));
+
+        queryResult = commentMapper.insertBpmData(params.getTid(), params.getMid(), params.getBpm());
+
+        return (queryResult == 1) ? true : false;
     }
 }

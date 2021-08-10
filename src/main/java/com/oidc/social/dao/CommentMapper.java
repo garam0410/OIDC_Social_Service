@@ -12,6 +12,8 @@ public interface CommentMapper {
 
     public Long getMid(String title);
 
+    public Long getTid(Long uid, Long mid);
+
     public int insertTitle(String title);
 
     public int insertComment(CommentDto params);
@@ -25,4 +27,8 @@ public interface CommentMapper {
     public List<CommentDto> selectCommentList(CommentDto params);
 
     public int selectCommentTotalCount(CommentDto params);
+
+    public int insertBpmTest(Long mid, Long uid);
+
+    public int insertBpmData(Long tid, Long mid, String bpm);
 }
