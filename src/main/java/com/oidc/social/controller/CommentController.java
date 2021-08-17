@@ -20,6 +20,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    // 댓글 추가
     @RequestMapping(value = { "/comments", "/comments/{cid}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
     public JSONObject registerComment(@PathVariable(value = "cid", required = false) Long cid, @RequestBody final CommentDto params) {
 
@@ -44,6 +45,7 @@ public class CommentController {
         return jsonObject;
     }
 
+    // 댓글 삭제
     @GetMapping(value = "/comments/delete/{cid}")
     public JSONObject deleteComment(@PathVariable(value = "cid") Long cid){
         JSONObject jsonObject = new JSONObject();
@@ -57,6 +59,7 @@ public class CommentController {
         return jsonObject;
     }
 
+    // 댓글 리스트 반환
     @GetMapping(value = "/comments/{title}")
     public JSONObject getCommentList(@PathVariable("title") String title, @ModelAttribute("params") CommentDto params) {
 
@@ -72,6 +75,7 @@ public class CommentController {
     }
 
 
+    // 
     @RequestMapping(value={"/bpmsend"}, method = {RequestMethod.POST, RequestMethod.PATCH})
     public JSONObject bpmSend(@RequestBody BpmDto params){
         JSONObject jsonObject = new JSONObject();
